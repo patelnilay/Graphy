@@ -12,44 +12,16 @@
 
 <form method="POST">
   {% csrf_token %}
-  {{form}}
-
+  {{provider_form}}
+  {{completion_form}}
   <input type="submit" value="Submit">
 </form>
 
-
-
-<!--<form method="POST">
-  {% csrf_token %}
-<select name="option">
-  <option value="5 E LTD.">5 E LTD.</option>
-  <option value="WOODSPEEN TRAINING LIMITED">WOODSPEEN TRAINING LIMITED</option>
-  <option value="ABINGDON AND WITNEY COLLEGE">ABINGDON AND WITNEY COLLEGE</option>
-  <option value="ACACIA TRAINING AND DEVELOPMENT LTD">ACACIA TRAINING AND DEVELOPMENT LTD</option>
-  <option value="ACACIA TRAINING LIMITED">ACACIA TRAINING LIMITED</option>
-  <option value="ACCESS TO MUSIC LIMITED">ACCESS TO MUSIC LIMITED</option>
-
-  </optgroup>
-</select>
-<input type="submit" value="Submit">
-</form> -->
-
-
-{% if data %}
+{% if selected_data %}
 <div class="first-data">
-
-  {% for row in data %}
-  <p>
-    {{ row.0 }} | {{ row.1 }} || {{row.2}} | {{row.3}} ||| {{row.4}}
-  </p>
-  {% endfor %}
+    {% for key, value in selected_data.items %}
+      {{ value }}
+      <h1>Compared to....</h1>
+    {% endfor %}
 </div>
-{% endif %}
-
-{% if second_data %}
-  {% for row in second_data %}
-  <p>
-    {{ row.1 }}
-  </p>
-  {% endfor %}
 {% endif %}
