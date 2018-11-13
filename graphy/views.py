@@ -75,6 +75,7 @@ def index(request):
                             queried_data[second_provider]["2015"] = row[6]
                             queried_data[second_provider]["2015"] = row[6]
 
+
         return render(request, 'index.html', {'form': form, 'queried_data': json.dumps(queried_data)})
 
 
