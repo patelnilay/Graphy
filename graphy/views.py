@@ -1,8 +1,8 @@
 import csv
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
-from graphy.forms import ProviderName
-import re
+from graphy.forms import QueryForm
+import json
 # from graphy.forms import CompletionYear
 
 
@@ -22,40 +22,60 @@ def read_csv():
     return data
 
 #lsit of csv data
-data = read_csv()
+csv_data = read_csv()
+
+
+def get_provider_name_from_id(id):
+    print("aaaa")
+    for row in csv_data:
+        if row[0] == str(id):
+            print("WE FOUND:")
+            print(row[1])
+            return row[1]
 
 # form request
 def index(request):
-    provider_form = ProviderName()
+    form = QueryForm()
 
-    selected_data = None
-    #checks if the post request is valid, if it is not valid then a request 404 page is displayed.
-    if request.method == 'POST':
-        selected_provider_name = request.POST.get('provider_name')
-        second_provider_name = request.POST.get('second_provider_name')
+    if request.method == "POST":
+        queried_data = {}
 
-        selected_data = {selected_provider_name: [], second_provider_name: []}
-
-        # Not yet implemented
-        first_completion_year = request.POST.get('first_completion_year')
-        second_completion_year = request.POST.get('second_completion_year')
-
-
-        # if selected_provider_name == None:
-        #     return HttpResponseNotFound('<h1>Page not found</h1>')
+        first_provider = request.POST.get("first_provider")
+        second_provider = request.POST.get("second_provider")
+        lower_year_bound = request.POST.get("lower_year_bound")
+        upper_year_bound = request.POST.get("upper_year_bound")
 
 
 
-        for row in data:
-            if row[3] == 'All' and row[1] in [selected_provider_name, second_provider_name]:
-                selected_data[row[1]].append(row)
-            elif row[3] == 'All' and row[0] in [selected_provider_name, second_provider_name]:
-                selected_data[row[0]].append(row)
+        if first_provider.isdigit():
+            first_provider = get_provider_name_from_id(first_provider)
 
-        # for row in data:
-        #     if data[5][0] ==
+        if second_provider.isdigit():
+            second_provider = get_provider_name_from_id(second_provider)
+
+        queried_data[first_provider] = {}
+        queried_data[second_provider] = {}
+
+        for row in csv_data:
+            if row[1] in [first_provider, second_provider]:
+                if row[3] == "All":
+                    if lower_year_bound == "2014":
+                        if row[1] == first_provider:
+                            queried_data[first_provider]["2014"] = row[5]
+                            queried_data[first_provider]["2014"] = row[5]
+                        elif row[1] == second_provider:
+                            queried_data[second_provider]["2014"] = row[5]
+                            queried_data[second_provider]["2014"] = row[5]
+
+                    if upper_year_bound == "2015":
+                        if row[1] == first_provider:
+                            queried_data[first_provider]["2015"] = row[6]
+                            queried_data[first_provider]["2015"] = row[6]
+                        elif row[1] == second_provider:
+                            queried_data[second_provider]["2015"] = row[6]
+                            queried_data[second_provider]["2015"] = row[6]
+
+        return render(request, 'index.html', {'form': form, 'queried_data': json.dumps(queried_data)})
 
 
-
-    return render(request, 'index.html', {'selected_data': selected_data,
-        'provider_form': provider_form})
+    return render(request, 'index.html', {'form': form})

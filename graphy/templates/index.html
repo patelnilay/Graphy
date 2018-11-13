@@ -1,27 +1,69 @@
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="{% static 'graphy/style.css' %}">
+  <title>Le Graphy</title>
 
-<link rel="stylesheet" type="text/css" href="{% static 'graphy/style.css' %}">
+  <!-- ====Scripts==== -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</head>
+<body>
+  <div class="wrapper">
 
-<h1>Graphy</h1>
+    <!-- header -->
+    <div class="pb-2 mt-4 mb-2 border-bottom">
+        <h4 class="card-title">Graphy</h4>
+    </div>
 
-<!-- <form method="POST">
-  {% csrf_token %}
-  <input type="text" name="option" />
-  <input type="submit">
-</form> -->
+    <form method="POST">
+      {% csrf_token %}
+      {{form}}
+      <input type="submit" value="Submit">
+    </form>
 
-<form method="POST">
-  {% csrf_token %}
-  {{provider_form}}
-  {{completion_form}}
-  <input type="submit" value="Submit">
-</form>
+    {% if queried_data %}
+      {% for provider_name, value in queried_data.items %}
+        <h1>{{ provider_name }}</h1>
+        <p>2014: {{ value.2014 }} | 2015: {{ value.2015 }}</p>
+      {% endfor %}
+    {% endif %}
 
-{% if selected_data %}
-<div class="first-data">
-    {% for key, value in selected_data.items %}
-      {{ value }}
-      <h1>Compared to....</h1>
-    {% endfor %}
-</div>
-{% endif %}
+  <canvas id="myChart"></canvas>
+
+    <script type="text/javascript">
+  var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+  // The type of chart we want to create
+  type: 'pie',
+
+  // The data for our dataset
+  data: {
+      labels: ["2014", "2015"],
+      datasets: [{
+          label: "My First dataset",
+          backgroundColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: [],
+      }]
+  },
+
+  // Configuration options go here
+  options: {}
+});
+
+var lol = "{{queried_data}}";
+console.log(lol);
+
+</script>
+
+  </div>
+</body>
+</html>
