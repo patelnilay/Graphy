@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="{% static 'graphy/style.css' %}">
+    <script src="{% static 'graphy/script-main.js' %}" charset="utf-8"></script>
     <title>Le Graphy</title>
     <!-- ====Scripts==== -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -25,8 +26,16 @@
         {{form}}
         <input type="submit" value="Submit">
     </form>
-    <canvas id="myChart"></canvas>
+    <div class="chart">
+      <canvas id="myChart"></canvas>
+    </div>
     <script>
+    window.addEventListener("load", function()
+    {
+      populateData('{{ queried_data | escapejs }}');
+    })
+    </script>
+    <!-- <script>
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             // The type of chart we want to create
@@ -55,12 +64,12 @@
                 var h = document.createElement("H1");
                 var hText = document.createTextNode(providerName);
                 h.appendChild(hText);
-                document.getElementsByTagName("BODY")[0].appendChild(h); 
-                
+                document.getElementsByTagName("BODY")[0].appendChild(h);
+
                 var p = document.createElement("p");
                 var pText = document.createTextNode("2014: " + jsonObject[providerName][2014] + " | 2015: " + jsonObject[providerName][2015]);
                 p.appendChild(pText);
-                document.getElementsByTagName("BODY")[0].appendChild(p); 
+                document.getElementsByTagName("BODY")[0].appendChild(p);
 
 
                 chart.data.labels.push(providerName + " | 2014" );
@@ -68,13 +77,7 @@
             }
 
         }
-    </script>
-</script>
-
-
-
-
-
+    </script>-->
 
 
 
