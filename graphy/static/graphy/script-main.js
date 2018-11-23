@@ -8,9 +8,8 @@ window.addEventListener("load", function(){
     data: {
       labels: [],
       datasets: [{
-        label: "My First dataset",
-        backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 99, 100)'],
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: ['#B22634', '#E1CE30'],
+        borderColor: 'rgba(255, 255, 255,0.3)',
         data: [],
       }]
     },
@@ -34,9 +33,11 @@ function populateData(queriedData){
       p.appendChild(pText);
       document.getElementsByTagName("BODY")[0].appendChild(p);
 
+      console.log(chart);
 
       chart.data.labels.push(providerName + " | 2014");
       chart.data.datasets[0].data.push(jsonObject[providerName][2014]);
+      chart.update()
     }
 
   }

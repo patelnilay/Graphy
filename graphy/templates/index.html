@@ -1,86 +1,49 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="{% static 'graphy/style.css' %}">
-    <script src="{% static 'graphy/script-main.js' %}" charset="utf-8"></script>
-    <title>Le Graphy</title>
-    <!-- ====Scripts==== -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="{% static 'graphy/style.css' %}">
+  <script src="{% static 'graphy/script-main.js' %}" charset="utf-8"></script>
+  <title>Le Graphy</title>
+  <!-- ====Scripts==== -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
+
 <body>
-    <div class="wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-12"></div>
       <!-- header -->
-      <div class="pb-2 mt-4 mb-2 border-bottom">
-        <h4 class="card-title">Graphy</h4>
+      <h1>Graphy</h1>
     </div>
-    <form method="POST">
+    <div class="row">
+      <form method="POST">
         {% csrf_token %}
         {{form}}
         <input type="submit" value="Submit">
-    </form>
-    <div class="chart">
-      <canvas id="myChart"></canvas>
+      </form>
     </div>
-    <script>
-    window.addEventListener("load", function()
-    {
-      populateData('{{ queried_data | escapejs }}');
-    })
-    </script>
-    <!-- <script>
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'pie',
-            // The data for our dataset
-            data: {
-              labels: [],
-              datasets: [{
-                  label: "My First dataset",
-                  backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 99, 100)'],
-                  borderColor: 'rgb(255, 99, 132)',
-                  data: [],
-              }]
-          },
-            // Configuration options go here
-            options: {}
-        });
+    <div class="row">
+      <div class="col-sm-2">
 
-        var jsonObject = JSON.parse('{{ queried_data | escapejs }}');
-
-
-        if(jsonObject)
-        {
-            for (providerName in jsonObject)
-            {
-                var h = document.createElement("H1");
-                var hText = document.createTextNode(providerName);
-                h.appendChild(hText);
-                document.getElementsByTagName("BODY")[0].appendChild(h);
-
-                var p = document.createElement("p");
-                var pText = document.createTextNode("2014: " + jsonObject[providerName][2014] + " | 2015: " + jsonObject[providerName][2015]);
-                p.appendChild(pText);
-                document.getElementsByTagName("BODY")[0].appendChild(p);
-
-
-                chart.data.labels.push(providerName + " | 2014" );
-                chart.data.datasets[0].data.push(jsonObject[providerName][2014]);
-            }
-
-        }
-    </script>-->
-
-
-
-</div>
+        <div class="chart-container">
+          <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <script>
+          window.addEventListener("load", function() {
+            populateData('{{ queried_data | escapejs }}');
+          })
+        </script>
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>

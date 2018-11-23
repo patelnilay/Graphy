@@ -3,11 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from graphy.forms import QueryForm
 import json
-# from graphy.forms import CompletionYear
-
 
 # Create your views here.
-
 
 # read the csv and append it to a list
 def read_csv():
@@ -21,16 +18,15 @@ def read_csv():
     datafile.close()
     return data
 
-#lsit of csv data
+#list of csv data
 csv_data = read_csv()
 
-
+#dynamically gets the provider name from the ID or by the name.
 def get_provider_name_from_id(id):
-    print("aaaa")
     for row in csv_data:
         if row[0] == str(id):
-            print("WE FOUND:")
-            print(row[1])
+            print("WE FOUND:") # debug
+            print(row[1]) # debug
             return row[1]
 
 # form request
@@ -46,16 +42,18 @@ def index(request):
         upper_year_bound = request.POST.get("upper_year_bound")
 
 
-
+        #checks for digits in first provider form box. then calls provider name finding function
         if first_provider.isdigit():
             first_provider = get_provider_name_from_id(first_provider)
 
+        #checks for digits in second provider form box. then calls provider name finding function
         if second_provider.isdigit():
             second_provider = get_provider_name_from_id(second_provider)
 
         queried_data[first_provider] = {}
         queried_data[second_provider] = {}
 
+        #loops through the data and finds where Breakdown_code column equals "all", then it adds the value of the queried data that matched the previously matched provider name
         for row in csv_data:
             if row[1] in [first_provider, second_provider]:
                 if row[3] == "All":
